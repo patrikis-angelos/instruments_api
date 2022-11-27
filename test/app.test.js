@@ -1,10 +1,10 @@
-// import request from 'supertest.js';
-// import app from '../src/app.js';
+import request from 'supertest';
+import app from '../src/app.js';
 
-// describe('Hello Test', () => {
-//   test('GET /', () => {
-//     request(app)
-//       .get('/')
-//       .expect(200);
-//   });
-// });
+describe('Hello Test', () => {
+  test('GET /', async () => {
+    await request(app)
+      .get('/')
+      .expect(200);
+  });
+});
