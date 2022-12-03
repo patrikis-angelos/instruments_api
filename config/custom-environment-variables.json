@@ -1,0 +1,13 @@
+{
+  "port": "PORT",
+  "db": {
+    "host": "DB_HOST",
+    "port": "DB_PORT",
+    "name": "DB_NAME",
+    "user": "DB_USER",
+    "password": "DB_PASSWORD",
+    "maxConnections": "MAX_CONNECTIONS",
+    "minConnections": "MIN_CONNECTIONS",
+    "idleConnectionTime": "IDLE_CONNECTION_TIME"
+  }
+}
