@@ -8,7 +8,9 @@
     "test": "NODE_OPTIONS=--experimental-vm-modules jest",
     "start": "node ./src/server.js",
     "lint": "eslint .",
-    "lint:fix": "eslint --fix ."
+    "lint:fix": "eslint --fix .",
+    "migrations": "typeorm migration:run -d ./src/startup/db.js",
+    "revert_last_migration": "typeorm migration:revert -d ./src/startup/db.js"
   },
   "repository": {
     "type": "git",

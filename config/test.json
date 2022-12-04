@@ -3,7 +3,7 @@
   "db": {
     "host": "localhost",
     "port": 5432,
-    "name": "instrument",
+    "name": "instrument_test",
     "user": "instruments_user",
     "password": "password",
     "type": "postgres",
