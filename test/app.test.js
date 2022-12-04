@@ -3,8 +3,7 @@ import app from '../src/app.js';
 
 describe('Hello Test', () => {
   test('GET /', async () => {
-    await request(app)
-      .get('/')
-      .expect(200);
+    const response = await request(app).get('/');
+    expect(response.status).toBe(200);
   });
 });
