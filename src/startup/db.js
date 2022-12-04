@@ -1,27 +1,26 @@
-import { Sequelize } from 'sequelize';
+import { DataSource } from 'typeorm';
 import config from 'config';
 
-const sequelize = new Sequelize(
-  config.get('db.name'),
-  config.get('db.user'),
-  config.get('db.password'),
-  {
-    host: config.get('db.host'),
-    dialect: config.get('db.dialect'),
-    port: config.get('db.port'),
-    pool: {
-      max: config.get('db.maxConnections'),
-      min: config.get('db.minConnections'),
-      idle: config.get('db.idleConnectionTime')
-    }
-  },
-);
+const myDataSource = new DataSource({
+  type: config.get('db.type'),
+  host: config.get('db.host'),
+  port: config.get('db.port'),
+  username: config.get('db.user'),
+  password: config.get('db.password'),
+  database: config.get('db.name'),
+  entities: ['src/models/*.js'],
+  logging: config.get('db.logging'),
+  synchronize: true,
+  extra: {
+    idleTimeoutMillis: config.get('db.idleTimeoutMillis'),
+  }
+});
 
 const dbConnect = async () => {
   try {
-    await sequelize.authenticate();
+    await myDataSource.initialize();
     console.log('Connection has been established successfully.');
-  } catch (error) {
+  } catch(error) {
     console.error('Unable to connect to the database:', error);
   }
 };

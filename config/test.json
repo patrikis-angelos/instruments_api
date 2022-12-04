@@ -6,9 +6,8 @@
     "name": "instrument",
     "user": "instruments_user",
     "password": "password",
-    "dialect": "postgres",
-    "maxConnections": 1,
-    "minConnections": 0,
-    "idleConnectionTime": 1
+    "type": "postgres",
+    "idleTimeoutMillis": 1,
+    "logging": false
   }
 }
