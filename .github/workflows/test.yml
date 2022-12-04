@@ -6,6 +6,14 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    service:
+      postgres:
+        image: postgres:15.1
+        env:
+          POSTGRES_USER: instruments_user
+          POSTGRES_PASSWORD: password
+        ports:
+        - 5432:5432
 
     strategy:
       matrix:
