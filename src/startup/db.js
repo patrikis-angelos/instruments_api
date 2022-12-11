@@ -3,7 +3,7 @@ import config from 'config';
 import migrations from '../migrations/index.js';
 import entities from '../models/index.js';
 
-export const myDataSource = new DataSource({
+export const dataSource = new DataSource({
   type: config.get('db.type'),
   host: config.get('db.host'),
   port: config.get('db.port'),
@@ -22,7 +22,7 @@ export const myDataSource = new DataSource({
 
 const dbConnect = async () => {
   try {
-    await myDataSource.initialize();
+    await dataSource.initialize();
     console.log('Connection has been established successfully.');
   } catch(error) {
     console.error('Unable to connect to the database:', error);
