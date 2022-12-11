@@ -1,16 +1,20 @@
 import { DataSource } from 'typeorm';
 import config from 'config';
+import migrations from '../migrations/index.js';
+import entities from '../models/index.js';
 
-const myDataSource = new DataSource({
+export const dataSource = new DataSource({
   type: config.get('db.type'),
   host: config.get('db.host'),
   port: config.get('db.port'),
   username: config.get('db.user'),
   password: config.get('db.password'),
   database: config.get('db.name'),
-  entities: ['src/models/*.js'],
+  entities: entities,
+  migrations: migrations,
+  migrationsTableName: 'migrations',
   logging: config.get('db.logging'),
-  synchronize: true,
+  synchronize: false,
   extra: {
     idleTimeoutMillis: config.get('db.idleTimeoutMillis'),
   }
@@ -18,7 +22,7 @@ const myDataSource = new DataSource({
 
 const dbConnect = async () => {
   try {
-    await myDataSource.initialize();
+    await dataSource.initialize();
     console.log('Connection has been established successfully.');
   } catch(error) {
     console.error('Unable to connect to the database:', error);

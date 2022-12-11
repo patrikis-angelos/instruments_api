@@ -2,6 +2,9 @@ name: Tests
 
 on: pull_request
 
+env:
+  NODE_ENV: test
+
 jobs:
   build:
 
@@ -11,7 +14,7 @@ jobs:
         image: postgres:15.1
         env:
           POSTGRES_USER: instruments_user
-          POSTGRES_DB: instrument
+          POSTGRES_DB: instrument_test
           POSTGRES_PASSWORD: password
         ports:
         - 5432:5432
@@ -27,5 +30,5 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: npm ci
-      - run: npm run build --if-present
+      - run: npm run migration
       - run: npm test
