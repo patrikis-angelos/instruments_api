@@ -11,7 +11,7 @@ jobs:
         image: postgres:15.1
         env:
           POSTGRES_USER: instruments_user
-          POSTGRES_DB: instrument
+          POSTGRES_DB: instrument_test
           POSTGRES_PASSWORD: password
         ports:
         - 5432:5432
