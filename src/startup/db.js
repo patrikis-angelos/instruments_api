@@ -1,7 +1,7 @@
 import { DataSource } from 'typeorm';
 import config from 'config';
 import migrations from '../migrations/index.js';
-import entities from '../models/index.js';
+import entities from '../entities/index.js';
 
 export const dataSource = new DataSource({
   type: config.get('db.type'),
@@ -16,7 +16,7 @@ export const dataSource = new DataSource({
   logging: config.get('db.logging'),
   synchronize: false,
   extra: {
-    idleTimeoutMillis: config.get('db.idleTimeoutMillis'),
+    idleTimeoutMillis: config.get('db.idleTimeoutMillis')
   }
 });
 
