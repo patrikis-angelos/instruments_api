@@ -21,12 +21,8 @@ export const dataSource = new DataSource({
 });
 
 const dbConnect = async () => {
-  try {
-    await dataSource.initialize();
-    console.log('Connection has been established successfully.');
-  } catch(error) {
-    console.error('Unable to connect to the database:', error);
-  }
+  await dataSource.initialize();
+  console.log('Connection has been established successfully.');
 };
 
 export default dbConnect;
