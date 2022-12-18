@@ -1,7 +1,7 @@
-import Category from './Category.js';
+import CategorySchema from './Category.js';
 
 const entities = [
-  Category
+  CategorySchema
 ];
 
 export default entities;

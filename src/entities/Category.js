@@ -1,7 +1,9 @@
 import { EntitySchema } from 'typeorm';
+import Category from '../models/Category.js';
 
-const Category = new EntitySchema({
+const CategorySchema = new EntitySchema({
   name: 'Category',
+  target: Category,
   columns: {
     id: {
       primary: true,
@@ -21,4 +23,4 @@ const Category = new EntitySchema({
   }
 });
 
-export default Category;
+export default CategorySchema;

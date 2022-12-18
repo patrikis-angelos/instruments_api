@@ -1,22 +1,32 @@
+import categoryService from '../services/category.js';
+import Category from '../models/Category.js';
+
 class CategoryController {
-  getCategories(req, res) {
-    res.send('All Categpries');
+  async getCategories(req, res) {
+    const result = await categoryService.getCategories();
+    res.json(result);
   }
 
-  getCategory(req, res) {
-    res.send('Category');
+  async getCategory(req, res) {
+    const result = await categoryService.getCategory(req.params.id);
+    res.json(result);
   }
 
-  createCategory(req, res) {
-    res.send('Create Category');
+  async createCategory(req, res) {
+    const category = new Category(req.body);
+    const result = await categoryService.createCategory(category);
+    res.json(result);
   }
 
-  updateCategory(req, res) {
-    res.send('Update Category');
+  async updateCategory(req, res) {
+    const category = new Category(req.body);
+    const result = await categoryService.updateCategory(req.params.id, category);
+    res.json(result);
   }
 
-  deleteCategory(req, res) {
-    res.send('Delete Category');
+  async deleteCategory(req, res) {
+    const result = await categoryService.deleteCategory(req.params.id);
+    res.json(result);
   }
 }
 
