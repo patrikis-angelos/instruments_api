@@ -1,5 +1,5 @@
 import categoryService from '../services/category.js';
-import Category from '../models/Category.js';
+import Category from '../entities/Category.js';
 
 class CategoryController {
   async getCategories(req, res) {

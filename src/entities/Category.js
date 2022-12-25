@@ -1,7 +1,15 @@
 import { EntitySchema } from 'typeorm';
-import Category from '../models/Category.js';
 
-const CategorySchema = new EntitySchema({
+class Category {
+  constructor(properties = {}) {
+    this.id = properties.id;
+    this.name = properties.name;
+    this.createdAt = properties.createdAt;
+    this.updatedAt = properties.updatedAt;
+  }
+}
+
+export const CategorySchema = new EntitySchema({
   name: 'Category',
   target: Category,
   columns: {
@@ -13,14 +21,16 @@ const CategorySchema = new EntitySchema({
     name: {
       type: 'varchar'
     },
-    created_at: {
+    createdAt: {
+      name: 'created_at',
       type: 'timestamp',
       nullable: false
     },
-    updated_at: {
+    updatedAt: {
+      name: 'updated_at',
       type: 'timestamp'
     }
   }
 });
 
-export default CategorySchema;
+export default Category;
