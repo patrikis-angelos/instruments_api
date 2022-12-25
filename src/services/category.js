@@ -1,4 +1,4 @@
-import Category from '../models/Category.js';
+import Category from '../entities/Category.js';
 import { dataSource } from '../startup/db.js';
 
 class CategoryService {
@@ -17,7 +17,7 @@ class CategoryService {
   }
 
   async updateCategory(id, category) {
-    category.updated_at = new Date();
+    category.updatedAt = new Date();
     return await this.categoryRepository.update(id, category);
   }
 

@@ -1,4 +1,4 @@
-import CategorySchema from './Category.js';
+import { CategorySchema } from './Category.js';
 
 const entities = [
   CategorySchema
