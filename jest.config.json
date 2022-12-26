@@ -1,3 +1,7 @@
 {
-  "setupFilesAfterEnv": ["jest-expect-message"]
+  "setupFilesAfterEnv": ["jest-expect-message"],
+  "collectCoverageFrom": [
+    "src/**/*.js",
+    "!src/migrations/*-*.js"
+  ]
 }
