@@ -1,2 +1,9 @@
+# Dependency directories
 node_modules/
-coverage/
+
+# Coverage directory used by tools like jest
+coverage
+
+# Logs
+logs
+*.log

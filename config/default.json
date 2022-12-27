@@ -9,5 +9,10 @@
     "type": "postgres",
     "idleTimeoutMillis": 10000,
     "logging": true
+  },
+  "log": {
+    "level": "debug",
+    "morgan": true,
+    "silent": false
   }
 }
