@@ -27,6 +27,8 @@ Instrumnets API in node using express
 
 Start the server: `npm start`
 
+Or to start the server using nodemon (to track changes during development): `npm run dev`
+
 ### Tests
 
 Run tests: `npm test`  
