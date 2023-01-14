@@ -5,8 +5,8 @@ const Category = new EntitySchema({
   columns: {
     id: {
       primary: true,
-      type: 'int',
-      generated: 'increment'
+      type: 'string',
+      generated: 'uuid'
     },
     name: {
       type: 'varchar'
