@@ -28,6 +28,12 @@
       "error",
       "always"
     ],
-    "comma-dangle": "error"
+    "comma-dangle": "error",
+    "no-unused-vars": [
+      "error",
+      {
+        "argsIgnorePattern": "err|req|res|next"
+      }
+    ]
   }
 }
