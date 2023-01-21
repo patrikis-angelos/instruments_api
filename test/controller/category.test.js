@@ -2,6 +2,7 @@ import request from 'supertest';
 import app from '../../src/app.js';
 import { seedDatabase, clearDatabase } from '../helper/dataManager.js';
 import mockCategories from '../helper/categories.js';
+import categoryService from '../../src/services/category.js';
 
 beforeAll(async () => {
   await seedDatabase();
@@ -71,15 +72,48 @@ describe('Category Controller', () => {
 
       expect(notFound.status).toBe(404);
     });
+
+    it('should return status 400 if id is invalid', async () => {
+      const notFound = await request(app).get('/category/invalid-id');
+
+      expect(notFound.status).toBe(400);
+    });
   });
 
   describe('POST /category', () => {
-    it('success', () => {
-
+    let response, body, data;
+    beforeAll(async () => {
+      response = await request(app).post('/category').send({ name: 'test_name' });
+      body = response.body;
+      data = body.data;
     });
 
-    it('missing parameters', () => {
+    it('should return status 200', () => {
+      expect(response.status).toBe(200);
+    });
 
+    it('should contain data object', () => {
+      expect(body).toStrictEqual(
+        expect.objectContaining({
+          data: expect.any(Object)
+        })
+      );
+    });
+
+    it('should return created category object', () => {
+      expect(data.id).toBeDefined();
+      expect(data.name).toEqual('test_name');
+    });
+
+    it('should create the category in the database', async () => {
+      const category = await categoryService.getCategory(data.id);
+      expect(category).toBeTruthy();
+    });
+
+    it('invalid payload', async () => {
+      const response = await request(app).post('/category').send({ });
+
+      expect(response.status).toBe(422);
     });
   });
 });

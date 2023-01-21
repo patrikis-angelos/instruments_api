@@ -1,6 +1,7 @@
 import categoryService from '../services/category.js';
 import Category from '../entities/Category.js';
 import ApiError from '../errors/ApiError.js';
+import { validateUuid } from '../validators/index.js';
 
 class CategoryController {
   async getCategories(req, res) {
@@ -9,6 +10,7 @@ class CategoryController {
   }
 
   async getCategory(req, res, next) {
+    validateUuid(req.params.id);
     const result = await categoryService.getCategory(req.params.id);
     if (!result) throw ApiError.notFound('Entity not found');
     res.json({ data: result });

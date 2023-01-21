@@ -9,7 +9,6 @@ class BaseEntity {
 
   validate() {
     const result = this.validationSchema().validate(this.#properties);
-    console.log(result.error);
     if (result.error) {
       const message = result.error.details
         .reduce((acc, val) => acc += val.message + ' ', '')

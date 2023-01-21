@@ -8,6 +8,10 @@ class ApiError extends Error {
   static notFound(message) {
     return new ApiError(message, 404);
   }
+
+  static badRequest(message) {
+    return new ApiError(message, 400);
+  }
 }
 
 export default ApiError;
