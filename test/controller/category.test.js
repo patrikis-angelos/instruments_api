@@ -64,7 +64,7 @@ describe('Category Controller', () => {
       const category = mockCategories.find((cat) => cat.id === '8b178c7b-ae9c-43fa-9196-361c656aff17');
 
       expect(data).toEqual(JSON.parse(JSON.stringify(category)));
-    })
+    });
 
     it('should return status 404 if id is not found', async () => {
       const notFound = await request(app).get('/category/8b178c7b-ae9c-43fa-9196-361c656aff14');

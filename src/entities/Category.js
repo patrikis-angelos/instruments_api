@@ -6,7 +6,7 @@ import BaseEntity from './BaseEntity.js';
 class Category extends BaseEntity {
   constructor(properties = {}) {
     super(properties);
-    this.name = properties.name
+    this.name = properties.name;
   }
   
   validationSchema() {

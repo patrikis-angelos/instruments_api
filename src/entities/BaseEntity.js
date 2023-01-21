@@ -1,10 +1,10 @@
 import ValidationError from '../errors/ValidationError.js';
 
 class BaseEntity {
-  #properties
+  #properties;
   
   constructor(properties) {
-    this.#properties = properties
+    this.#properties = properties;
   }
 
   validate() {
@@ -13,7 +13,7 @@ class BaseEntity {
     if (result.error) {
       const message = result.error.details
         .reduce((acc, val) => acc += val.message + ' ', '')
-        .replaceAll('\"', '\'')
+        .replaceAll('"', '\'')
         .trim();
 
       const data = result.error.details.map((obj) => ({ [obj.context.key]: obj.message }));
