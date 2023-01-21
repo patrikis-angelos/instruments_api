@@ -15,6 +15,7 @@ class CategoryController {
 
   async createCategory(req, res) {
     const category = new Category(req.body);
+    category.validate();
     const result = await categoryService.createCategory(category);
     res.json({ data: result });
   }

@@ -1,11 +1,18 @@
 import { EntitySchema } from 'typeorm';
+import Joi from 'joi';
 
-class Category {
+import BaseEntity from './BaseEntity.js';
+
+class Category extends BaseEntity {
   constructor(properties = {}) {
-    this.id = properties.id;
-    this.name = properties.name;
-    this.createdAt = properties.createdAt;
-    this.updatedAt = properties.updatedAt;
+    super(properties);
+    this.name = properties.name
+  }
+  
+  validationSchema() {
+    return Joi.object({
+      name: Joi.string().max(50).required()
+    });
   }
 }
 
@@ -31,6 +38,10 @@ export const CategorySchema = new EntitySchema({
       type: 'timestamp'
     }
   }
+});
+
+export const CategoryValidation =  Joi.object({
+  name: Joi.string().max(50).required()
 });
 
 export default Category;
