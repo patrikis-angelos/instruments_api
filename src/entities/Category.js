@@ -5,14 +5,20 @@ import BaseEntity from './BaseEntity.js';
 
 class Category extends BaseEntity {
   constructor(properties = {}) {
-    super(properties);
+    super();
     this.name = properties.name;
   }
   
-  validationSchema() {
+  getValidationSchema() {
     return Joi.object({
       name: Joi.string().max(50).required()
     });
+  }
+
+  getProperties() {
+    return {
+      name: this.name
+    };
   }
 }
 

@@ -1,14 +1,11 @@
 import ValidationError from '../errors/ValidationError.js';
 
 class BaseEntity {
-  #properties;
+  getValidationSchema() {}
+  getProperties() {}
   
-  constructor(properties) {
-    this.#properties = properties;
-  }
-
   validate() {
-    const result = this.validationSchema().validate(this.#properties);
+    const result = this.getValidationSchema().validate(this.getProperties());
     if (result.error) {
       const message = result.error.details
         .reduce((acc, val) => acc += val.message + ' ', '')
