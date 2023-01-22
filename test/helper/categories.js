@@ -10,5 +10,11 @@ export default [
     name: 'category 15',
     createdAt: new Date(),
     updatedAt: null
+  },
+  {
+    id: '850c3d6a-7cd5-46ab-9fcd-be7c0a1a6dea',
+    name: 'category_for_delete_endpoint_test',
+    createdAt: new Date(),
+    updatedAt: new Date()
   }
 ];

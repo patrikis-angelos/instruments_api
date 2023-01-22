@@ -149,13 +149,51 @@ describe('Category Controller', () => {
     });
 
     it('should return 404 if record not found', async () => {
-      const response = await request(app).put('/category/11111111-1111-1111-1111-111111111111').send({ });
+      const response = await request(app).put('/category/11111111-1111-1111-1111-111111111111').send({ name: 'updated_test_name' });
 
-      expect(response.status).toBe(422);
+      expect(response.status).toBe(404);
     });
 
     it('should return 400 if id is invalid', async () => {
       const response = await request(app).put('/category/invalid-id').send({ name: 'updated_test_name' });
+
+      expect(response.status).toBe(400);
+    });
+  });
+
+  describe('DELETE /category/:id', () => {
+    let response, body;
+    const id = '850c3d6a-7cd5-46ab-9fcd-be7c0a1a6dea';
+    beforeAll(async () => {
+      response = await request(app).delete(`/category/${id}`);
+      body = response.body;
+    });
+
+    it('should return status 200', () => {
+      expect(response.status).toBe(200);
+    });
+
+    it('should contain data object', () => {
+      expect(body).toStrictEqual(
+        expect.objectContaining({
+          data: expect.any(Object)
+        })
+      );
+    });
+
+    it ('should delete the category from the batabase', async () => {
+      const category = await categoryService.getCategory(id);
+      expect(category).toBeNull();
+    });
+
+    it('should return status 404 if record not found', async () => {
+      const response = await request(app).delete('/category/11111111-1111-1111-1111-111111111111');
+
+      expect(response.status).toBe(404);
+    });
+
+    it('should return 400 if id is invalid', async () => {
+      const response = await request(app).delete('/category/invalid-id');
 
       expect(response.status).toBe(400);
     });

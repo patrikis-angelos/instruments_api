@@ -32,6 +32,7 @@ class CategoryController {
   }
 
   async deleteCategory(req, res) {
+    validateUuid(req.params.id);
     const result = await categoryService.deleteCategory(req.params.id);
     res.json({ data: result });
   }
