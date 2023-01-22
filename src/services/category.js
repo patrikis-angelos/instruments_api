@@ -1,5 +1,6 @@
 import Category from '../entities/Category.js';
 import { dataSource } from '../startup/db.js';
+import ApiError from '../errors/ApiError.js';
 
 class CategoryService {
   categoryRepository = dataSource.getRepository(Category);
@@ -18,11 +19,17 @@ class CategoryService {
 
   async updateCategory(id, category) {
     category.updatedAt = new Date();
-    return await this.categoryRepository.update(id, category);
+    const result = await this.categoryRepository.update(id, category);
+    if (result.affected) return { message: `Category ${id} updated` };
+
+    throw ApiError.notFound(`Catgory ${id} not found`);
   }
 
   async deleteCategory(id) {
-    return await this.categoryRepository.delete(id);
+    const result =  await this.categoryRepository.delete(id);
+    if (result.affected) return { message: `Category ${id} deleted`};
+
+    throw ApiError.notFound(`Catgory ${id} not found`);
   }
 }
 
