@@ -116,4 +116,48 @@ describe('Category Controller', () => {
       expect(response.status).toBe(422);
     });
   });
+
+  describe('PUT /category/:id', () => {
+    let response, body;
+    const id = '8b178c7b-ae9c-43fa-9196-361c656aff17';
+    beforeAll(async () => {
+      response = await request(app).put(`/category/${id}`).send({ name: 'updated_test_name' });
+      body = response.body;
+    });
+
+    it('should return status 200', () => {
+      expect(response.status).toBe(200);
+    });
+
+    it('should contain data object', () => {
+      expect(body).toStrictEqual(
+        expect.objectContaining({
+          data: expect.any(Object)
+        })
+      );
+    });
+
+    it('should update the category in the database', async () => {
+      const category = await categoryService.getCategory(id);
+      expect(category.name).toBe('updated_test_name');
+    });
+
+    it('invalid payload', async () => {
+      const response = await request(app).put(`/category/${id}`).send({ });
+
+      expect(response.status).toBe(422);
+    });
+
+    it('should return 404 if record not found', async () => {
+      const response = await request(app).put('/category/11111111-1111-1111-1111-111111111111').send({ });
+
+      expect(response.status).toBe(422);
+    });
+
+    it('should return 400 if id is invalid', async () => {
+      const response = await request(app).put('/category/invalid-id').send({ name: 'updated_test_name' });
+
+      expect(response.status).toBe(400);
+    });
+  });
 });

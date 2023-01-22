@@ -24,7 +24,9 @@ class CategoryController {
   }
 
   async updateCategory(req, res) {
+    validateUuid(req.params.id);
     const category = new Category(req.body);
+    category.validate();
     const result = await categoryService.updateCategory(req.params.id, category);
     res.json({ data: result });
   }
