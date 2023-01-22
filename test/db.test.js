@@ -17,7 +17,7 @@ describe('Database configuration', () => {
 
   test('Entities', async () => {
     const files = fs.readdirSync('./src/entities')
-      .filter((file) => file !== 'index.js')
+      .filter((file) => !['index.js', 'BaseEntity.js'].includes(file))
       .map((file) => file.replace('.js', ''));
     
     const exports = entities.map(entity => entity.options.name);

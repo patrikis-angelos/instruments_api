@@ -33,6 +33,7 @@ Or to start the server using nodemon (to track changes during development): `npm
 
 Run tests: `npm test`  
 Run tests with coverage: `npm run test:coverage`
+Watch tests with: `npm run test:watch`
 
 ### Linter
 
