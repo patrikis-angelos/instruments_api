@@ -3,5 +3,7 @@
   "collectCoverageFrom": [
     "src/**/*.js",
     "!src/migrations/*-*.js"
-  ]
+  ],
+  "globalSetup": "./test/helper/seedDatabase.js",
+  "globalTeardown": "./test/helper/clearDatabase.js"
 }

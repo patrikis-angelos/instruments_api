@@ -11,7 +11,7 @@ describe('Database configuration', () => {
     const exports = migrations.map(migration => migration.name);
 
     for (let i = 0; i < files.length; i ++) {
-      expect(files[i], `Migration ${files[i]} is not exported or the export order is wrong`).toBe(exports[i]);
+      expect(exports[i] , `Migration ${files[i]} is not exported or the export order is wrong`).toBe(files[i]);
     }
   });
 
@@ -23,7 +23,7 @@ describe('Database configuration', () => {
     const exports = entities.map(entity => entity.options.name);
 
     for (let i = 0; i < files.length; i ++) {
-      expect(files[i], `Entity ${files[i]} is not exported or the export order is wrong`).toBe(exports[i]);
+      expect(exports[i], `Entity ${files[i]} is not exported or the export order is wrong`).toBe(files[i]);
     }
   });
 });
