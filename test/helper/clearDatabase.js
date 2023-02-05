@@ -6,6 +6,9 @@ export default async () => {
   const categoryRepository = dataSource.getRepository(Category);
   const instrumentRepository = dataSource.getRepository(Instrument);
 
-  await categoryRepository.clear();
-  await instrumentRepository.clear();
+  const categoryIds = (await categoryRepository.find()).map((category) => category.id);
+  const instrumentIds = (await instrumentRepository.find()).map((instrument) => instrument.id);
+
+  await categoryRepository.delete(categoryIds);
+  await instrumentRepository.delete(instrumentIds);
 };
