@@ -28,7 +28,7 @@ export const CategorySchema = new EntitySchema({
   columns: {
     id: {
       primary: true,
-      type: 'string',
+      type: 'varchar',
       generated: 'uuid'
     },
     name: {
@@ -42,6 +42,24 @@ export const CategorySchema = new EntitySchema({
     updatedAt: {
       name: 'updated_at',
       type: 'timestamp'
+    }
+  },
+  relations: {
+    instruments: {
+      name: 'instruments',
+      target: 'Instrument',
+      type: 'many-to-many',
+      inverseSide: 'Category',
+      joinTable: {
+        name: 'instrument_category',
+        joinColumn: {
+          name: 'category_id'
+        },
+        inverseJoinColumn: {
+          name: 'instrument_id'
+        }
+      },
+      cascade: false
     }
   }
 });

@@ -1,16 +1,7 @@
 import request from 'supertest';
 import app from '../../src/app.js';
-import { seedDatabase, clearDatabase } from '../helper/dataManager.js';
 import mockCategories from '../helper/categories.js';
 import categoryService from '../../src/services/category.js';
-
-beforeAll(async () => {
-  await seedDatabase();
-});
-
-afterAll(async () => {
-  await clearDatabase();
-});
 
 describe('Category Controller', () => {
   describe('GET /category', () => {
