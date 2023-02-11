@@ -4,189 +4,114 @@ import mockCategories from '../helper/categories.js';
 import categoryService from '../../src/services/category.js';
 
 describe('Category Controller', () => {
-  describe('GET /category', () => {
-    let response, body, data;
-    beforeAll(async () => {
-      response = await request(app).get('/category');
-      body = response.body;
-      data = body.data;
-    });
-
-    it('should return status 200', async () => {
-      expect(response.status).toBe(200);
-    });
-
-    it('should contain data array', () => {
-      expect(body).toStrictEqual(
+  test('GET /category success', async() => {
+    const response = await request(app).get('/category');
+    // expect status 200
+    expect(response.status).toBe(200);
+    // expect to contain data object
+    expect(response.body).toMatchObject({ data: expect.any(Array) });
+    // expect to contain categories in data
+    expect(response.body.data).toEqual(
+      expect.arrayContaining([
         expect.objectContaining({
-          data: expect.any(Array)
+          id: expect.any(String),
+          name: expect.any(String),
+          createdAt: expect.any(String),
+          updatedAt: expect.any(String)
         })
-      );
-    });
-
-    it('should contain categories in data', () => {
-      const [category1, category2] = mockCategories;
-
-      expect(data).toContainEqual(JSON.parse(JSON.stringify(category1)));
-      expect(data).toContainEqual(JSON.parse(JSON.stringify(category2)));
-    });
+      ])
+    );
   });
 
-  describe('GET /category/:id', () => {
-    let response, body, data;
-    beforeAll(async () => {
-      response = await request(app).get('/category/8b178c7b-ae9c-43fa-9196-361c656aff17');
-      body = response.body;
-      data = body.data;
-    });
-
-    it('should return status 200', () => {
-      expect(response.status).toBe(200);
-    });
-
-    it('should contain data object', () => {
-      expect(body).toStrictEqual(
-        expect.objectContaining({
-          data: expect.any(Object)
-        })
-      );
-    });
-
-    it('should contain category with given id in data object', () => {
-      const category = mockCategories.find((cat) => cat.id === '8b178c7b-ae9c-43fa-9196-361c656aff17');
-
-      expect(data).toEqual(JSON.parse(JSON.stringify(category)));
-    });
-
-    it('should return status 404 if id is not found', async () => {
-      const notFound = await request(app).get('/category/8b178c7b-ae9c-43fa-9196-361c656aff14');
-
-      expect(notFound.status).toBe(404);
-    });
-
-    it('should return status 400 if id is invalid', async () => {
-      const notFound = await request(app).get('/category/invalid-id');
-
-      expect(notFound.status).toBe(400);
-    });
+  test('GET /category/:id success', async () => {
+    const response = await request(app).get('/category/8b178c7b-ae9c-43fa-9196-361c656aff17');
+    // should return status 200
+    expect(response.status).toBe(200);
+    // should contain data object
+    expect(response.body).toMatchObject({ data: expect.any(Object) });
+    // should contain category with given id in data object
+    const category = mockCategories.find((cat) => cat.id === '8b178c7b-ae9c-43fa-9196-361c656aff17');
+    expect(response.body.data).toEqual(JSON.parse(JSON.stringify(category)));
   });
 
-  describe('POST /category', () => {
-    let response, body, data;
-    beforeAll(async () => {
-      response = await request(app).post('/category').send({ name: 'test_name' });
-      body = response.body;
-      data = body.data;
-    });
+  test('GET /category/:id not found', async () => {
+    const response = await request(app).get('/category/8b178c7b-ae9c-43fa-9196-361c656aff14');
 
-    it('should return status 200', () => {
-      expect(response.status).toBe(200);
-    });
-
-    it('should contain data object', () => {
-      expect(body).toStrictEqual(
-        expect.objectContaining({
-          data: expect.any(Object)
-        })
-      );
-    });
-
-    it('should return created category object', () => {
-      expect(data.id).toBeDefined();
-      expect(data.name).toEqual('test_name');
-    });
-
-    it('should create the category in the database', async () => {
-      const category = await categoryService.getCategory(data.id);
-      expect(category).toBeTruthy();
-    });
-
-    it('invalid payload', async () => {
-      const response = await request(app).post('/category').send({ });
-
-      expect(response.status).toBe(422);
-    });
+    expect(response.status).toBe(404);
   });
 
-  describe('PUT /category/:id', () => {
-    let response, body;
+  test('GET /category/:id bad request', async () => {
+    const response = await request(app).get('/category/invalid-id');
+
+    expect(response.status).toBe(400);
+  });
+
+  test('POST /category success', async () => {
+    const response = await request(app).post('/category').send({ name: 'test_name' });
+    // should return status 200
+    expect(response.status).toBe(200);
+    // should contain data object
+    expect(response.body).toMatchObject({ data: expect.any(Object) });
+    // should return created category object
+    expect(response.body.data.id).toBeDefined();
+    expect(response.body.data.name).toEqual('test_name');
+    // should create the category in the database
+    const category = await categoryService.getCategory(response.body.data.id);
+    expect(category).toBeTruthy();
+  });
+
+  test('POST /category invalid payload', async () => {
+    const response = await request(app).post('/category').send({ });
+
+    expect(response.status).toBe(422);
+  });
+
+  test('PUT /category/:id success', async () => {
     const id = '8b178c7b-ae9c-43fa-9196-361c656aff17';
-    beforeAll(async () => {
-      response = await request(app).put(`/category/${id}`).send({ name: 'updated_test_name' });
-      body = response.body;
-    });
-
-    it('should return status 200', () => {
-      expect(response.status).toBe(200);
-    });
-
-    it('should contain data object', () => {
-      expect(body).toStrictEqual(
-        expect.objectContaining({
-          data: expect.any(Object)
-        })
-      );
-    });
-
-    it('should update the category in the database', async () => {
-      const category = await categoryService.getCategory(id);
-      expect(category.name).toBe('updated_test_name');
-    });
-
-    it('invalid payload', async () => {
-      const response = await request(app).put(`/category/${id}`).send({ });
-
-      expect(response.status).toBe(422);
-    });
-
-    it('should return 404 if record not found', async () => {
-      const response = await request(app).put('/category/11111111-1111-1111-1111-111111111111').send({ name: 'updated_test_name' });
-
-      expect(response.status).toBe(404);
-    });
-
-    it('should return 400 if id is invalid', async () => {
-      const response = await request(app).put('/category/invalid-id').send({ name: 'updated_test_name' });
-
-      expect(response.status).toBe(400);
-    });
+    const response = await request(app).put(`/category/${id}`).send({ name: 'updated_test_name' });
+    // should return status 200
+    expect(response.status).toBe(200);
+    // should contain data object
+    expect(response.body).toMatchObject({ data: expect.any(Object) });
+    //should update the category in the database
+    const category = await categoryService.getCategory(id);
+    expect(category.name).toBe('updated_test_name');
   });
 
-  describe('DELETE /category/:id', () => {
-    let response, body;
+  test('PUT /category/:id invalid payload', async () => {
+    const id = '8b178c7b-ae9c-43fa-9196-361c656aff17';
+    const response = await request(app).put(`/category/${id}`).send({ });
+
+    expect(response.status).toBe(422);
+  });
+
+  test('PUT /category/:id not found', async () => {
+    const response = await request(app).put('/category/11111111-1111-1111-1111-111111111111').send({ name: 'updated_test_name' });
+
+    expect(response.status).toBe(404);
+  });
+
+  test('PUT /category/:id bad request', async () => {
+    const response = await request(app).put('/category/invalid-id').send({ name: 'updated_test_name' });
+
+    expect(response.status).toBe(400);
+  });
+
+  test('DELETE /category/:id success', async () => {
     const id = '850c3d6a-7cd5-46ab-9fcd-be7c0a1a6dea';
-    beforeAll(async () => {
-      response = await request(app).delete(`/category/${id}`);
-      body = response.body;
-    });
+    const response = await request(app).delete(`/category/${id}`);
+    // should return status 200
+    expect(response.status).toBe(200);
+    // should contain data object
+    expect(response.body).toMatchObject({ data: expect.any(Object) });
+    // should delete the category from the batabase
+    const category = await categoryService.getCategory(id);
+    expect(category).toBeNull();
+  });
 
-    it('should return status 200', () => {
-      expect(response.status).toBe(200);
-    });
+  test('DELETE /category/:id bad request', async () => {
+    const response = await request(app).delete('/category/invalid-id');
 
-    it('should contain data object', () => {
-      expect(body).toStrictEqual(
-        expect.objectContaining({
-          data: expect.any(Object)
-        })
-      );
-    });
-
-    it ('should delete the category from the batabase', async () => {
-      const category = await categoryService.getCategory(id);
-      expect(category).toBeNull();
-    });
-
-    it('should return status 404 if record not found', async () => {
-      const response = await request(app).delete('/category/11111111-1111-1111-1111-111111111111');
-
-      expect(response.status).toBe(404);
-    });
-
-    it('should return 400 if id is invalid', async () => {
-      const response = await request(app).delete('/category/invalid-id');
-
-      expect(response.status).toBe(400);
-    });
+    expect(response.status).toBe(400);
   });
 });

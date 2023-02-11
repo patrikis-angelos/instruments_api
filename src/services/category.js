@@ -22,14 +22,14 @@ class CategoryService {
     const result = await this.categoryRepository.update(id, category);
     if (result.affected) return { message: `Category ${id} updated` };
 
-    throw ApiError.notFound(`Catgory ${id} not found`);
+    throw ApiError.notFound(`Category ${id} not found`);
   }
 
   async deleteCategory(id) {
     const result =  await this.categoryRepository.delete(id);
     if (result.affected) return { message: `Category ${id} deleted`};
 
-    throw ApiError.notFound(`Catgory ${id} not found`);
+    throw ApiError.notFound(`Category ${id} not found`);
   }
 }
 
